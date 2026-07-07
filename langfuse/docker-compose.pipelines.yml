@@ -1,0 +1,25 @@
+version: "3.9"
+
+services:
+  pipelines:
+    image: ghcr.io/open-webui/pipelines:main
+    container_name: pipelines
+    restart: always
+
+    ports:
+      - "9099:9099"
+
+    # This reproduces: --add-host=host.docker.internal:host-gateway
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+    volumes:
+      - pipelines:/app/pipelines
+
+    environment:
+      LANGFUSE_PUBLIC_KEY: "pk-..."
+      LANGFUSE_SECRET_KEY: "sk-..."
+      LANGFUSE_HOST: "http://host.docker.internal:3100"
+
+volumes:
+  pipelines:
